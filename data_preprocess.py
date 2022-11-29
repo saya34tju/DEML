@@ -13,13 +13,13 @@ from torch.utils.data import Dataset, DataLoader
 from rdkit import Chem
 np.set_printoptions(suppress=True)
 print('ok')
-extract_file = "../BigDeepSynergy/data0704/drugdrug_extract28newddi.csv"
-drugfeature_file = "../BigDeepSynergy/data0704/drugfeature.csv"
-cell_line_feature = "../BigDeepSynergy/data0704/cell-line-feature_express_extract.csv"
+extract_file = "data/drugdrug_label.csv"
+drugfeature_file = "data/drugfeature.csv"
+cell_line_feature = "data/cell-line-feature_express_extract.csv"
 
 # drug a shape 541 / drug b shape 541 / gene shape 927
 # precess
-# print(os.listdir('BigDeepSynergy/data0704'))
+
 # print(os.getcwd())
 # drugdrug_extract28newddi需要新加inter与type两个字段
 def load_data(cell_line_name="all", score="S", is_class=True,cuts=None):
@@ -45,8 +45,8 @@ def load_data(cell_line_name="all", score="S", is_class=True,cuts=None):
         chr_array = ['synergy_zip', 'synergy_bliss', 'synergy_loewe', 'synergy_hsa', 'S', 'label','inter']
         label = [drug_comb.at[i, name] for name in chr_array]
         if label[2]>5:label[-2]=1
-        elif label[2]<-5:label[-2]=0
-        else:label[-2]=0
+        elif label[2]<5:label[-2]=0
+
         sample = np.hstack((drugA_feature, drugB_feature, feature, label))
         data[i] = sample
         if i % 10000 == 0:
